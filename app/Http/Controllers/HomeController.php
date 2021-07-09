@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contribution;
 use App\Models\Customer;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -26,7 +27,29 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $total_customers = Customer::all()->count();
+
+        // Total completed
+        $t_contribution = Contribution::where([
+            ['request_type', '=' , 'credit'],
+            ['status', '=' , 'approved'],
+        ])->get();
+        $total_contribution = number_format($t_contribution->sum('amount'));
+//
+        $t_revenue = Contribution::where([
+            ['request_type', '=' , 'credit'],
+            ['status', '=' , 'approved'],
+        ])->get();
+        $total_revenue = number_format($t_revenue->sum('gain'));
+
+        $total_staff = User::all()->count();
+
+        $contributions = Contribution::where('status', 'approved')->orderBy('id','desc')->limit(10)->get();
+        return view('home', ['total_customers' => $total_customers,
+            'total_contribution' => $total_contribution,
+            'total_revenue' => $total_revenue,
+            'total_staff' => $total_staff,
+            'contributions' => $contributions]);
     }
 
     public function getSingleStaff(){}

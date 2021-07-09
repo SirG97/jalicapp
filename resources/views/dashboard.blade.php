@@ -66,7 +66,7 @@
             <div class="col-md-12">
                 <div class="custom-panel card py-2">
                     <div class="font-weight-bold text-secondary mb-1 py-3 px-3">
-                        Latest transactions
+                        Approved Transactions
                     </div>
                     <div class="table-responsive">
                         <table class="table table-hover ">
@@ -80,9 +80,10 @@
                                 <th scope="col">Collected by</th>
                                 <th scope="col">Posted by</th>
                                 <th scope="col">Date</th>
+
                             </tr>
                             </thead>
-                            <tbody class="table-style">
+                            <tbody>
                             @if(!empty($contributions) && count($contributions) > 0)
                                 @foreach($contributions as $contribution)
                                     <tr>
@@ -92,12 +93,13 @@
                                         <td>{{ $contribution['savings_type'] }}</td>
                                         <td>{{ $contribution['balance'] }}</td>
                                         <td>{{ $contribution['collected_by'] }}</td>
-                                        <td>{{ $contribution->user['firstname'] }} {{$contribution->user['lastname']}}</td>
-                                        <td>{{ $contribution['created_at']->diffForHumans() }}</td>
+                                        <td>{{ $contribution['posted_by']}}</td>
+                                        <td>{{ $contribution['created_at'] }}</td>
 
                                     </tr>
                                 @endforeach
-                                {{--    {{ $contributions->links('views.bootstrap-4') }}--}}
+                                {{--                                    {{ $contributions->links('views.bootstrap-4') }}--}}
+
 
                             @else
                                 <tr>
@@ -106,11 +108,11 @@
                                     </td>
                                 </tr>
                             @endif
+
                             </tbody>
+
                         </table>
-                    </div>
-                    <div class="panel-footer py-1 mt-0 mr-3 d-flex justify-content-end">
-                        <a href="/contributions" class="btn btn-primary btn-sm px-3">View more</a>
+
                     </div>
 
                 </div>
